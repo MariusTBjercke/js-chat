@@ -1,14 +1,42 @@
+import * as Controller from './controller';
+import { chat } from './model';
 let app = document.querySelector("#app");
-import { updateUser } from './controller';
 
-show();
-function show() {
+show('home');
+function show(page) {
+    if (page) chat.app.currentPage = page;
+    let currentPage = chat.app.currentPage;
+
     app.innerHTML = '';
 
-    let click = cr('h1', app, 'class header', 'Hello world');
-    click.onclick = () => {
-        updateUser('marius');
+    switch (currentPage) {
+        case 'home':
+            showFrontPage();
+            break;
+
+        case 'login':
+            showLogin();
+            break;
+
+        default:
+            break;
     }
+
+}
+
+function showFrontPage() {
+
+    let wrapper = cr('div', app, 'class wrapper');
+
+    let click = cr('h1', wrapper, 'class header', 'Hello world');
+    click.onclick = () => {
+    }
+
+}
+
+function showLogin() {
+
+    let wrapper = cr('div', app, 'class wrapper');
 
 }
 

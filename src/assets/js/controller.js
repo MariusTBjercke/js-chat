@@ -1,5 +1,6 @@
 import { db } from './firestore';
 import { doc, setDoc } from 'firebase/firestore';
+import { chat } from './model';
 
 async function updateUser(username) {
     const docRef = doc(db, "users", username);

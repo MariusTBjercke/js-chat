@@ -16,3 +16,5 @@ let chat = {
 
     }
 };
+
+export { chat }

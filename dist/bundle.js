@@ -166,7 +166,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"updateUser\": () => (/* binding */ updateUser)\n/* harmony export */ });\n/* harmony import */ var _firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./firestore */ \"./src/assets/js/firestore/index.js\");\n/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ \"./node_modules/firebase/firestore/dist/index.esm.js\");\n\r\n\r\n\r\nasync function updateUser(username) {\r\n    const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(_firestore__WEBPACK_IMPORTED_MODULE_0__.db, \"users\", username);\r\n\r\n    await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)(docRef, {\r\n        username: username,\r\n        test: 'Dette er en test',\r\n    });\r\n}\r\n\r\n\n\n//# sourceURL=webpack://js-chat/./src/assets/js/controller.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"updateUser\": () => (/* binding */ updateUser)\n/* harmony export */ });\n/* harmony import */ var _firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./firestore */ \"./src/assets/js/firestore/index.js\");\n/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ \"./node_modules/firebase/firestore/dist/index.esm.js\");\n/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./model */ \"./src/assets/js/model.js\");\n\r\n\r\n\r\n\r\nasync function updateUser(username) {\r\n    const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(_firestore__WEBPACK_IMPORTED_MODULE_0__.db, \"users\", username);\r\n\r\n    await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.setDoc)(docRef, {\r\n        username: username,\r\n        test: 'Dette er en test',\r\n    });\r\n}\r\n\r\n\n\n//# sourceURL=webpack://js-chat/./src/assets/js/controller.js?");
 
 /***/ }),
 
@@ -180,13 +180,23 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/assets/js/model.js":
+/*!********************************!*\
+  !*** ./src/assets/js/model.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"chat\": () => (/* binding */ chat)\n/* harmony export */ });\nlet chat = {\r\n    app: {\r\n        currentUser: '',\r\n        currentPage: '',\r\n    },\r\n\r\n    input: {\r\n\r\n        login: {\r\n            username: '',\r\n        },\r\n\r\n    },\r\n\r\n    data: {\r\n\r\n    }\r\n};\r\n\r\n\n\n//# sourceURL=webpack://js-chat/./src/assets/js/model.js?");
+
+/***/ }),
+
 /***/ "./src/assets/js/view.js":
 /*!*******************************!*\
   !*** ./src/assets/js/view.js ***!
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./controller */ \"./src/assets/js/controller.js\");\nlet app = document.querySelector(\"#app\");\r\n\r\n\r\nshow();\r\nfunction show() {\r\n    app.innerHTML = '';\r\n\r\n    let click = cr('h1', app, 'class header', 'Hello world');\r\n    click.onclick = () => {\r\n        (0,_controller__WEBPACK_IMPORTED_MODULE_0__.updateUser)('marius');\r\n    }\r\n\r\n}\r\n\r\n/**\r\n * Similar to the createElement function, but refactored for this app.\r\n * @param {string} tagName The name of an element.\r\n * @param {HTMLElement} parent Parent element for this new child element.\r\n * @param {string} attr The first word in the beginning of a sentence before and after comma will be the attribute type, the following words (separated by empty spaces) before the optional next comma will be the attribute value(s). Example: class red rectangle,id header\r\n * @param {html} html HTML for innerHTML.\r\n * @returns {HTMLElement}\r\n */\r\n function cr(tagName, parent, attr, html) {\r\n    const element = document.createElement(tagName);\r\n    if (html) element.innerHTML = html;\r\n    if (attr) {\r\n        let sentences = attr.split(\",\");\r\n        sentences.forEach(sentence => {\r\n            let words = sentence.trim().split(\" \");\r\n            let word1 = words.shift();\r\n            let word2 = words.join(\" \");\r\n            element.setAttribute(word1, word2);\r\n        });\r\n    }\r\n    if (parent) parent.appendChild(element);\r\n    return element;\r\n}\n\n//# sourceURL=webpack://js-chat/./src/assets/js/view.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./controller */ \"./src/assets/js/controller.js\");\n/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./model */ \"./src/assets/js/model.js\");\n\r\n\r\nlet app = document.querySelector(\"#app\");\r\n\r\nshow('home');\r\nfunction show(page) {\r\n    if (page) _model__WEBPACK_IMPORTED_MODULE_1__.chat.app.currentPage = page;\r\n    let currentPage = _model__WEBPACK_IMPORTED_MODULE_1__.chat.app.currentPage;\r\n\r\n    app.innerHTML = '';\r\n\r\n    switch (currentPage) {\r\n        case 'home':\r\n            showFrontPage();\r\n            break;\r\n\r\n        case 'login':\r\n            showLogin();\r\n            break;\r\n\r\n        default:\r\n            break;\r\n    }\r\n\r\n}\r\n\r\nfunction showFrontPage() {\r\n\r\n    let wrapper = cr('div', app, 'class wrapper');\r\n\r\n    let click = cr('h1', wrapper, 'class header', 'Hello world');\r\n    click.onclick = () => {\r\n    }\r\n\r\n}\r\n\r\nfunction showLogin() {\r\n\r\n    let wrapper = cr('div', app, 'class wrapper');\r\n\r\n}\r\n\r\n/**\r\n * Similar to the createElement function, but refactored for this app.\r\n * @param {string} tagName The name of an element.\r\n * @param {HTMLElement} parent Parent element for this new child element.\r\n * @param {string} attr The first word in the beginning of a sentence before and after comma will be the attribute type, the following words (separated by empty spaces) before the optional next comma will be the attribute value(s). Example: class red rectangle,id header\r\n * @param {html} html HTML for innerHTML.\r\n * @returns {HTMLElement}\r\n */\r\n function cr(tagName, parent, attr, html) {\r\n    const element = document.createElement(tagName);\r\n    if (html) element.innerHTML = html;\r\n    if (attr) {\r\n        let sentences = attr.split(\",\");\r\n        sentences.forEach(sentence => {\r\n            let words = sentence.trim().split(\" \");\r\n            let word1 = words.shift();\r\n            let word2 = words.join(\" \");\r\n            element.setAttribute(word1, word2);\r\n        });\r\n    }\r\n    if (parent) parent.appendChild(element);\r\n    return element;\r\n}\n\n//# sourceURL=webpack://js-chat/./src/assets/js/view.js?");
 
 /***/ }),
 
@@ -313,7 +323,8 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	__webpack_require__("./src/assets/js/controller.js");
 /******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
 /******/ 	
 /******/ })()
