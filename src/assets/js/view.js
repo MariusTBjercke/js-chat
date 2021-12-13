@@ -2,15 +2,18 @@ import * as Controller from './controller';
 import { chat } from './model';
 let app = document.querySelector("#app");
 
-show('home');
+show('frontpage');
 function show(page) {
     if (page) chat.app.currentPage = page;
     let currentPage = chat.app.currentPage;
 
     app.innerHTML = '';
 
+    // Authentication
+    Controller.auth();
+
     switch (currentPage) {
-        case 'home':
+        case 'frontpage':
             showFrontPage();
             break;
 
@@ -19,6 +22,7 @@ function show(page) {
             break;
 
         default:
+            showFrontPage();
             break;
     }
 
@@ -28,15 +32,19 @@ function showFrontPage() {
 
     let wrapper = cr('div', app, 'class wrapper');
 
-    let click = cr('h1', wrapper, 'class header', 'Hello world');
-    click.onclick = () => {
-    }
+    let container = cr('div', wrapper, 'class container');
 
 }
 
 function showLogin() {
 
     let wrapper = cr('div', app, 'class wrapper');
+
+    let container = cr('div', wrapper, 'class container');
+
+    let form = cr('div', container, 'class form');
+
+    let header = cr('h1', form, 'class header', 'Logg inn');
 
 }
 
@@ -63,3 +71,5 @@ function showLogin() {
     if (parent) parent.appendChild(element);
     return element;
 }
+
+export { show }

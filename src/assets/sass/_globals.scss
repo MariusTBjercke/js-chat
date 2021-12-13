@@ -3,6 +3,10 @@ html, body {
     padding: 0;
 }
 
-.header {
-    color: red;
+.wrapper {
+    max-width: 1366px;
+}
+
+.container {
+    border: 1px solid black;
 }

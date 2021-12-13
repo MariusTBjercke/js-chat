@@ -14,6 +14,17 @@ let chat = {
 
     data: {
 
+        pages: [
+            {
+                name: 'frontpage',
+                requiresAuth: true,
+            },
+            {
+                name: 'login',
+                requiresAuth: false,
+            },
+        ],
+
     }
 };
 
