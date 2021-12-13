@@ -1,0 +1,47 @@
+.login {
+    justify-content: center;
+    padding: 20px 20px 40px 20px;
+
+    h1 {
+        margin: 0 0;
+    }
+
+    h2 {
+        margin-top: 5px;
+    }
+
+    .header {
+        font-weight: 100;
+
+        span {
+            font-weight: bold;
+        }
+    }
+    
+    .description {
+        font-size: .9em;
+    }
+
+    .form {
+        display: grid;
+        gap: 10px;
+        justify-content: start;
+
+        .input-field {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: space-between;
+            gap: 15px;
+            position: relative;
+
+            label {
+                font-weight: bold;
+            }
+        }
+
+        button {
+            padding: 5px 20px;
+        }
+
+    }
+}

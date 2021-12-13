@@ -5,14 +5,13 @@ let app = document.querySelector("#app");
 show('frontpage');
 function show(page) {
     if (page) chat.app.currentPage = page;
-    let currentPage = chat.app.currentPage;
-
-    app.innerHTML = '';
-
+    
     // Authentication
     Controller.auth();
 
-    switch (currentPage) {
+    app.innerHTML = '';
+    
+    switch (chat.app.currentPage) {
         case 'frontpage':
             showFrontPage();
             break;
@@ -40,11 +39,25 @@ function showLogin() {
 
     let wrapper = cr('div', app, 'class wrapper');
 
-    let container = cr('div', wrapper, 'class container');
+    let container = cr('div', wrapper, 'class container login');
 
+    let header = cr('h1', container, 'class header', '<span>JS</span> Chat');
+    
+    let description = cr('div', container, 'class description', '<p>Velkommen til en live chat-tjeneste laget med JavaScript. Denne siden benytter seg av Firestore for å lagre og hente samtalelogger.</p><p>Vennligst fyll inn et brukernavn. Dette vil være din "tag" som andre kan se at meldingene kommer fra.</p>');
+    
+    let subHeader = cr('h2', container, '', 'Logg inn');
+    
     let form = cr('div', container, 'class form');
 
-    let header = cr('h1', form, 'class header', 'Logg inn');
+    let username = cr('div', form, 'class input-field');
+    let usernameLabel = cr('label', username, '', 'Brukernavn: ');
+    let usernameInput = cr('input', username, 'type text, class username');
+    
+    let submit = cr('div', form, 'class input-field');
+    let submitBtn = cr('button', submit, 'type submit', 'Gå til chat');
+    submitBtn.onclick = () => {
+        Controller.login(usernameInput);
+    }
 
 }
 
@@ -72,4 +85,4 @@ function showLogin() {
     return element;
 }
 
-export { show }
+export { show, cr }
