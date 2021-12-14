@@ -33,9 +33,10 @@ function showFrontPage() {
 
     let container = cr('div', wrapper, 'class container frontpage');
 
-    let chat = cr('div', container, 'class chat-container');
+    let headerRow = cr('div', container, 'class header');
+    let header = cr('h1', headerRow, '', 'Live Chat');
 
-    let header = cr('h1', chat, 'class header', 'Live Chat');
+    let chat = cr('div', container, 'class chat-container');
 
     let participantsContainer = cr('div', chat, 'class participants');
     let participantsHeader = cr('h3', participantsContainer, '', 'Deltagere');
@@ -43,6 +44,10 @@ function showFrontPage() {
     Controller.listChatParticipants(participants);
 
     let chatWindow = cr('div', chat, 'class chat-window');
+
+    let compose = cr('div', chat, 'class compose');
+    let textarea = cr('textarea', compose, '');
+    let send = cr('div', compose, 'class btn', 'Send');
 
 }
 

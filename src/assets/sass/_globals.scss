@@ -4,30 +4,31 @@ html, body {
     font-family: 'Ubuntu', sans-serif;
     display: grid;
     justify-content: center;
+    width: 100%;
 }
 
 // Wrapper START
 
 .wrapper {
-    max-width: 960px;
+    width: 960px;
     display: grid;
 }
 
 @media screen and (max-width: 960px) {
     .wrapper {
-        max-width: 720px;
+        width: 720px;
     }
 }
 
 @media screen and (max-width: 720px) {
     .wrapper {
-        max-width: 540px;
+        width: 540px;
     }
 }
 
 @media screen and (max-width: 540px) {
     .wrapper {
-        max-width: 375px;
+        width: 375px;
     }
 }
 
@@ -36,7 +37,6 @@ html, body {
 .container {
     border: 1px solid black;
     width: 100%;
-    height: 100%;
     box-sizing: border-box;
     display: grid;
     padding: 20px 20px 40px 20px;
