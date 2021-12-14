@@ -50,7 +50,7 @@ function showLogin() {
     let form = cr('div', container, 'class form');
 
     let username = cr('div', form, 'class input-field');
-    let usernameLabel = cr('label', username, '', 'Brukernavn: ');
+    let usernameLabel = cr('label', username, '', 'Visningsnavn: ');
     let usernameInput = cr('input', username, 'type text, class username');
     
     let submit = cr('div', form, 'class input-field');
