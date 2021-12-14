@@ -31,7 +31,18 @@ function showFrontPage() {
 
     let wrapper = cr('div', app, 'class wrapper');
 
-    let container = cr('div', wrapper, 'class container');
+    let container = cr('div', wrapper, 'class container frontpage');
+
+    let chat = cr('div', container, 'class chat-container');
+
+    let header = cr('h1', chat, 'class header', 'Live Chat');
+
+    let participantsContainer = cr('div', chat, 'class participants');
+    let participantsHeader = cr('h3', participantsContainer, '', 'Deltagere');
+    let participants = cr('div', participantsContainer, 'class list');
+    Controller.listChatParticipants(participants);
+
+    let chatWindow = cr('div', chat, 'class chat-window');
 
 }
 

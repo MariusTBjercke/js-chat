@@ -14,31 +14,29 @@ function auth() {
     }
 }
 
-async function updateUser(username) {
+async function updateUser(username, object) {
     const docRef = doc(db, "users", username);
 
-    await setDoc(docRef, {
-        messages: null,
-    });
+    await setDoc(docRef, object);
 }
 
 function login(input) {
 
-    let test = firestore('read', 'demo');
+    let listeners = [];
 
-    test.then((result) => {
-        console.log(result);
-    });
+    let success = validateInput(input, 'Glemt noe?', listeners);
 
-    // let listeners = [];
+    if (success) {
 
-    // let success = validateInput(input, 'Glemt noe?', listeners);
+        let userObj = {
+            messages: [],
+            online: true
+        };
 
-    // if (success) {
-    //     chat.app.currentUser = input.value;
-    //     updateUser(input.value);
-    //     show('frontpage');
-    // }
+        chat.app.currentUser = input.value;
+        updateUser(input.value, userObj);
+        show('frontpage');
+    }
 
 }
 
@@ -69,14 +67,12 @@ function validateInput(input, errorMsg, listeners) {
 
 /**
  * 
- * @param {*} action read (returns a promise), write or query
+ * @param {*} action read (returns a promise) or write
  * @param {*} document Which document to operate with
  * @param {*} object For "write" action. Object data to update document with.
- * @param {*} val1 For a query. Check if val1 == val2. Example: "state"
- * @param {*} val2 Second value for a query
  * @returns 
  */
-async function firestore(action, document, object, val1, val2) {
+async function firestore(action, document, object) {
     const docRef = document ? doc(db, "users", document) : false;
     switch (action) {
         case 'read':
@@ -88,17 +84,18 @@ async function firestore(action, document, object, val1, val2) {
             if (!object) return false;
             await setDoc(docRef, object);
             break;
-        case 'query':
-            if (!query) return false;
-            const colRef = collection(db, "users");
-            const q = query(colRef, where(val1, "==", val2));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                return doc.data();
-            });
         default:
             break;
     }
 }
 
-export { auth, updateUser, login }
+async function listChatParticipants(container) {
+    const q = query(collection(db, "users"), where("online", "==", true));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        let participant = cr('div', container, 'class participant', doc.id);
+    });
+}
+
+export { auth, updateUser, login, listChatParticipants }
