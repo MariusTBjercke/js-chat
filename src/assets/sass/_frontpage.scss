@@ -15,7 +15,7 @@
         justify-content: start;
         grid-template-columns: auto 1fr;
         grid-template-areas: 'participants chat-window'
-                             '. compose';
+                             'participants compose';
         gap: 10px;
 
         .participants {
@@ -26,6 +26,14 @@
 
             h3 {
                 margin: 0 0 10px 0;
+            }
+
+            .spinner {
+                background: url('../img/spinner-circle.svg');
+                width: 50px;
+                height: 50px;
+                background-size: cover;
+                margin: auto;
             }
         }
 

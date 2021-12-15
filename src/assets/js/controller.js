@@ -92,7 +92,14 @@ async function firestore(action, document, object) {
 async function listChatParticipants(container) {
     const q = query(collection(db, "users"), where("online", "==", true));
 
+    // Loading (spinner)
+    let spinner = cr('div', container, 'class spinner');
+
     const querySnapshot = await getDocs(q);
+
+    // Remove spinner
+    spinner.remove();
+
     querySnapshot.forEach((doc) => {
         let participant = cr('div', container, 'class participant', doc.id);
     });
