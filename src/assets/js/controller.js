@@ -1,9 +1,12 @@
 import { db } from './firestore';
-import { doc, getDoc, setDoc, collection, getDocs, where, query } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs, where, query, addDoc, onSnapshot, orderBy, limit } from 'firebase/firestore';
 import { chat } from './model';
 import { show, cr } from './view';
+import * as timeago from 'timeago.js';
+import nb_NO from 'timeago.js/lib/lang/nb_NO';
 
 function auth() {
+
     let currentPage = chat.app.currentPage;
     let currentUser = chat.app.currentUser;
     let pages = chat.data.pages;
@@ -12,12 +15,15 @@ function auth() {
         console.log('Requires authentication..');
         show('login');
     }
+
 }
 
 async function updateUser(username, object) {
+
     const docRef = doc(db, "users", username);
 
     await setDoc(docRef, object);
+
 }
 
 function login(input) {
@@ -29,7 +35,7 @@ function login(input) {
     if (success) {
 
         let userObj = {
-            messages: [],
+            password: '',
             online: true
         };
 
@@ -41,6 +47,7 @@ function login(input) {
 }
 
 function validateInput(input, errorMsg, listeners) {
+
     if (!input.value.trim() > 0) {
         input.classList.add('input-error');
         // Make sure listener is only added once
@@ -63,6 +70,7 @@ function validateInput(input, errorMsg, listeners) {
         }
         return true;
     }
+
 }
 
 /**
@@ -73,7 +81,9 @@ function validateInput(input, errorMsg, listeners) {
  * @returns 
  */
 async function firestore(action, document, object) {
+
     const docRef = document ? doc(db, "users", document) : false;
+
     switch (action) {
         case 'read':
             const docSnap = await getDoc(docRef);
@@ -87,9 +97,11 @@ async function firestore(action, document, object) {
         default:
             break;
     }
+
 }
 
 async function listChatParticipants(container) {
+
     const q = query(collection(db, "users"), where("online", "==", true));
 
     // Loading (spinner)
@@ -103,6 +115,92 @@ async function listChatParticipants(container) {
     querySnapshot.forEach((doc) => {
         let participant = cr('div', container, 'class participant', doc.id);
     });
+
 }
 
-export { auth, updateUser, login, listChatParticipants }
+async function sendMessage(input) {
+
+    let currentUser = chat.app.currentUser;
+
+    let message = {
+        author: currentUser,
+        message: input.value,
+        timestamp: Date.now()
+    }
+
+    // Reset textarea
+    input.value = "";
+
+    const docRef = await addDoc(collection(db, "messages"), message);
+
+}
+
+function keyDown(e, input) {
+
+    if (e.key === 'Enter' || e.key === 'Shift') {
+
+        if (chat.input.keysPressed.findIndex(x => x === e.key) === -1) {
+            chat.input.keysPressed.push(e.key);
+        }
+
+        if (chat.input.keysPressed.findIndex(x => x === 'Shift') === -1) {
+            e.preventDefault();
+            sendMessage(input);
+        }
+
+    }
+
+}
+
+function keyUp(e) {
+
+    if (e.key === 'Enter' || e.key === 'Shift') {
+        chat.input.keysPressed.splice(chat.input.keysPressed.findIndex(x => x === e.key), 1);
+    }
+
+}
+
+async function listMessages(container, window) {
+
+    // Loading (spinner)
+    let spinner = cr('div', window, 'class spinner');
+
+    const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+        container.innerHTML = '';
+
+        querySnapshot.forEach(doc => {
+
+            let data = doc.data();
+
+            let row = cr('div', container, 'class row');
+
+            let authorRow = cr('div', row, 'class author');
+
+            let date = new Date(data.timestamp);
+            // Add Norwegian to timeago.js
+            timeago.register('nb_NO', nb_NO);
+            let dateString = timeago.format(date, 'nb_NO');
+            let dateTxt = cr('div', authorRow, 'class date', dateString);
+
+            let author = cr('span', authorRow, '', data.author + ':');
+
+            let messageRow = cr('div', row, 'class message');
+            let message = cr('div', messageRow, '', data.message);
+
+        });
+
+        spinner.remove();
+
+        // Scroll chat window to bottom of chat
+        window.scroll({
+            top: window.scrollHeight,
+        });
+
+    });
+
+}
+
+export { auth, updateUser, login, listChatParticipants, sendMessage, keyDown, keyUp, listMessages }

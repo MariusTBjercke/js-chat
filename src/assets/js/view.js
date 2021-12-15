@@ -44,10 +44,19 @@ function showFrontPage() {
     Controller.listChatParticipants(participants);
 
     let chatWindow = cr('div', chat, 'class chat-window');
+    let chatMessages = cr('div', chatWindow, 'class messages');
+    Controller.listMessages(chatMessages, chatWindow);
 
     let compose = cr('div', chat, 'class compose');
     let textarea = cr('textarea', compose, '');
+    textarea.addEventListener('keydown', (e) => {
+        Controller.keyDown(e, textarea);
+    });
+    textarea.addEventListener('keyup', Controller.keyUp);
     let send = cr('div', compose, 'class btn', 'Send');
+    send.onclick = () => {
+        Controller.sendMessage(textarea);
+    }
 
 }
 

@@ -10,6 +10,8 @@ let chat = {
             username: '',
         },
 
+        keysPressed: [],
+
     },
 
     data: {

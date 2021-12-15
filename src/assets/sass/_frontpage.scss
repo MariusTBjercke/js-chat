@@ -43,6 +43,47 @@
             box-sizing: border-box;
             height: 300px;
             grid-area: chat-window;
+            overflow-y: scroll;
+            position: relative;
+
+            .spinner {
+                background: url('../img/spinner-circle.svg');
+                width: 50px;
+                height: 50px;
+                background-size: cover;
+                position: absolute;
+                margin: auto;
+                left: 0;
+                right: 0;
+                top: 40%;
+                text-align: center;
+            }
+
+            .messages {
+                width: 100%;
+                height: 100%;
+                display: grid;
+                gap: 20px;
+                padding: 5px;
+                box-sizing: border-box;
+
+                .row {
+                    display: grid;
+                    gap: 3px;
+
+                    .date {
+                        font-size: .8em;
+                    }
+
+                    .author {
+                        font-size: .9em;
+
+                        span {
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
         }
 
         .compose {
