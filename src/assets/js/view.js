@@ -84,6 +84,9 @@ function showLogin() {
     let username = cr('div', form, 'class input-field');
     let usernameLabel = cr('label', username, '', 'Visningsnavn: ');
     let usernameInput = cr('input', username, 'type text, class username');
+    usernameInput.addEventListener('keydown', (e) => {
+        Controller.loginKeyDown(e, usernameInput);
+    });
     
     let submit = cr('div', form, 'class input-field');
     let submitBtn = cr('button', submit, 'type submit', 'Gå til chat');

@@ -47,6 +47,14 @@ function login(input) {
 
 }
 
+function loginKeyDown(e, input) {
+
+    if (e.key === 'Enter') {
+        login(input);
+    }
+    
+}
+
 function validateInput(input, errorMsg, listeners) {
 
     if (!input.value.trim() > 0) {
@@ -251,4 +259,4 @@ async function setOnlineStatus(user, bool) {
 
 }
 
-export { auth, updateUser, login, listChatParticipants, sendMessage, keyDown, keyUp, listMessages, setLastSeen, checkUsers }
+export { auth, updateUser, login, loginKeyDown, listChatParticipants, sendMessage, keyDown, keyUp, listMessages, setLastSeen, checkUsers }
