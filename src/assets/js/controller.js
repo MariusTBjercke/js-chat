@@ -4,6 +4,7 @@ import { chat } from './model';
 import { show, cr } from './view';
 import * as timeago from 'timeago.js';
 import nb_NO from 'timeago.js/lib/lang/nb_NO';
+import moment from 'moment';
 
 function auth() {
 
@@ -35,8 +36,8 @@ function login(input) {
     if (success) {
 
         let userObj = {
-            password: '',
-            online: true
+            online: true,
+            lastSeen: Date.now()
         };
 
         chat.app.currentUser = input.value;
@@ -107,13 +108,19 @@ async function listChatParticipants(container) {
     // Loading (spinner)
     let spinner = cr('div', container, 'class spinner');
 
-    const querySnapshot = await getDocs(q);
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
-    // Remove spinner
-    spinner.remove();
+        container.innerHTML = '';
 
-    querySnapshot.forEach((doc) => {
-        let participant = cr('div', container, 'class participant', doc.id);
+        querySnapshot.forEach(doc => {
+
+            let participant = cr('div', container, 'class participant', doc.id);
+
+        });
+
+        // Remove spinner
+        spinner.remove();
+
     });
 
 }
@@ -122,9 +129,13 @@ async function sendMessage(input) {
 
     let currentUser = chat.app.currentUser;
 
+    // Strip input value in case of HTML tags and so on
+    let tmp = new DOMParser().parseFromString(input.value, 'text/html');
+    let finalMsg = tmp.body.textContent || "";
+
     let message = {
         author: currentUser,
-        message: input.value,
+        message: finalMsg,
         timestamp: Date.now()
     }
 
@@ -203,4 +214,41 @@ async function listMessages(container, window) {
 
 }
 
-export { auth, updateUser, login, listChatParticipants, sendMessage, keyDown, keyUp, listMessages }
+async function setLastSeen(user) {
+
+    await setDoc(doc(db, "users", user), {
+        online: true,
+        lastSeen: Date.now()
+    });
+
+}
+
+async function checkUsers() {
+
+    const querySnapshot = await getDocs(collection(db, "users"));
+
+    querySnapshot.forEach((doc) => {
+
+        let name = doc.id;
+        let lastSeen = doc.data().lastSeen;
+        let oldTime = moment().subtract(10, 'seconds');
+
+        let check = moment(lastSeen).isAfter(moment(oldTime));
+        
+        if (!check) {
+            setOnlineStatus(doc.id, false);
+        }
+
+    });
+
+}
+
+async function setOnlineStatus(user, bool) {
+
+    await setDoc(doc(db, "users", user), {
+        online: bool,
+    });
+
+}
+
+export { auth, updateUser, login, listChatParticipants, sendMessage, keyDown, keyUp, listMessages, setLastSeen, checkUsers }

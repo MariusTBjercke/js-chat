@@ -45,6 +45,7 @@
             grid-area: chat-window;
             overflow-y: scroll;
             position: relative;
+            align-items: end;
 
             .spinner {
                 background: url('../img/spinner-circle.svg');
@@ -61,8 +62,8 @@
 
             .messages {
                 width: 100%;
-                height: 100%;
-                display: grid;
+                display: flex;
+                flex-direction: column;
                 gap: 20px;
                 padding: 5px;
                 box-sizing: border-box;
@@ -113,6 +114,7 @@
 
             textarea {
                 height: 30px;
+                resize: none;
             }
         }
 

@@ -20,6 +20,7 @@
   "dependencies": {
     "firebase": "^9.6.1",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "timeago.js": "^4.0.2"
   }
 }
