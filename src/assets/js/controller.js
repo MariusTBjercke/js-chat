@@ -6,6 +6,12 @@ import * as timeago from 'timeago.js';
 import nb_NO from 'timeago.js/lib/lang/nb_NO';
 import moment from 'moment';
 
+// Update user last seen status every x ms
+// This would normally be done with a background task/cron job (?)
+setInterval(() => {
+    checkUsers();
+}, 5000);
+
 function auth() {
 
     let currentPage = chat.app.currentPage;
@@ -110,6 +116,10 @@ async function firestore(action, document, object) {
 }
 
 async function listChatParticipants(container) {
+
+    setInterval(() => {
+        setLastSeen(chat.app.currentUser);
+    }, 5000);
 
     const q = query(collection(db, "users"), where("online", "==", true));
 

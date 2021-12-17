@@ -41,7 +41,7 @@ function showFrontPage() {
     let container = cr('div', wrapper, 'class container frontpage');
 
     let headerRow = cr('div', container, 'class header');
-    let header = cr('h1', headerRow, '', 'Live Chat');
+    let header = cr('h1', headerRow, '', '<span>JS</span> Chat 1.0');
 
     let chatContainer = cr('div', container, 'class chat-container');
 
@@ -68,6 +68,10 @@ function showFrontPage() {
 }
 
 function showLogin() {
+
+    setInterval(() => {
+        Controller.checkUsers();
+    }, 5000);
 
     let wrapper = cr('div', app, 'class wrapper');
 
