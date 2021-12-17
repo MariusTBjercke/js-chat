@@ -44,10 +44,17 @@
         }
 
         button {
-            padding: 5px 20px;
+            padding: 10px 20px;
             background: #4687ff;
-            color: white;
+            color: #fff;
             text-shadow: 1px 1px 2px black;
+            border: 1px solid rgb(105, 105, 105);
+            border-radius: 1px;
+
+            &:hover {
+                background: #2a74ff;
+                cursor: pointer;
+            }
         }
 
     }
