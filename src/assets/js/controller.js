@@ -212,7 +212,7 @@ async function listMessages(container, window) {
     // Loading (spinner)
     let spinner = cr('div', window, 'class spinner');
 
-    const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+    const q = query(collection(db, "messages"), orderBy("timestamp", "desc"), limit(20));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
@@ -236,7 +236,7 @@ async function listMessages(container, window) {
             setInterval(() => {
                 let updatedDateString = timeago.format(date, 'nb_NO');
                 dateTxt.innerHTML = updatedDateString;
-            }, 3000);
+            }, 1000);
 
             let author = cr('span', authorRow, '', data.author + ':');
 
