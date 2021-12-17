@@ -5,8 +5,8 @@ import { show, cr } from './view';
 import * as timeago from 'timeago.js';
 import nb_NO from 'timeago.js/lib/lang/nb_NO';
 import moment from 'moment';
+let lastSeenInterval;
 
-// Update user last seen status every x ms
 // This would normally be done with a background task/cron job (?)
 setInterval(() => {
     checkUsers();
@@ -48,6 +48,10 @@ function login(input) {
 
         chat.app.currentUser = input.value;
         updateUser(input.value, userObj);
+        // Update user last seen status every x ms
+        lastSeenInterval = setInterval(() => {
+            setLastSeen(chat.app.currentUser);
+        }, 5000);
         show('frontpage');
     }
 
@@ -58,7 +62,7 @@ function loginKeyDown(e, input) {
     if (e.key === 'Enter') {
         login(input);
     }
-    
+
 }
 
 function validateInput(input, errorMsg, listeners) {
@@ -116,10 +120,6 @@ async function firestore(action, document, object) {
 }
 
 async function listChatParticipants(container) {
-
-    setInterval(() => {
-        setLastSeen(chat.app.currentUser);
-    }, 5000);
 
     const q = query(collection(db, "users"), where("online", "==", true));
 
@@ -252,7 +252,7 @@ async function checkUsers() {
         let oldTime = moment().subtract(10, 'seconds');
 
         let check = moment(lastSeen).isAfter(moment(oldTime));
-        
+
         if (!check) {
             setOnlineStatus(doc.id, false);
         }

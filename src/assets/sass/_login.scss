@@ -1,5 +1,6 @@
 .login {
     justify-content: center;
+    background: #fff;
 
     h1 {
         margin: 0 0;
@@ -33,6 +34,10 @@
             gap: 15px;
             position: relative;
 
+            input {
+                background: #fff;
+            }
+
             label {
                 font-weight: bold;
             }
@@ -40,6 +45,9 @@
 
         button {
             padding: 5px 20px;
+            background: #4687ff;
+            color: white;
+            text-shadow: 1px 1px 2px black;
         }
 
     }

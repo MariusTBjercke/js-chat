@@ -105,14 +105,14 @@
                 justify-content: center;
                 align-items: center;
                 padding: 0 20px;
-                background: linear-gradient(rgb(0, 88, 160), rgb(81, 156, 255));
+                background: #4687ff;
                 color: #fff;
                 text-shadow: 1px 1px 2px black;
                 border: 1px solid rgb(105, 105, 105);
                 border-radius: 1px;
 
                 &:hover {
-                    background: linear-gradient(rgb(0, 60, 109), rgb(20, 122, 255));
+                    background: #2a74ff;
                     cursor: pointer;
                 }
             }
