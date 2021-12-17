@@ -16,7 +16,7 @@ if (chat.app.currentUser) {
 }
 // DEV ONLY - END
 
-// This would normally be done with a background task/cron job (?)
+// A little bit "hacky", but it works (since I don't have access to background tasks)
 setInterval(() => {
     checkUsers();
 }, 5000);
