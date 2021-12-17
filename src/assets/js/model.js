@@ -1,6 +1,6 @@
 let chat = {
     app: {
-        currentUser: 'Marius',
+        currentUser: '',
         currentPage: '',
     },
 
