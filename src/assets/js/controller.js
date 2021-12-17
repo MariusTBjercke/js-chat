@@ -232,6 +232,12 @@ async function listMessages(container, window) {
             let dateString = timeago.format(date, 'nb_NO');
             let dateTxt = cr('div', authorRow, 'class date', dateString);
 
+            // Update timeago string every x ms
+            setInterval(() => {
+                let updatedDateString = timeago.format(date, 'nb_NO');
+                dateTxt.innerHTML = updatedDateString;
+            }, 3000);
+
             let author = cr('span', authorRow, '', data.author + ':');
 
             let messageRow = cr('div', row, 'class message');
