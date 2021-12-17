@@ -29,13 +29,6 @@ function show(page) {
 
 function showFrontPage() {
 
-    // Update user last seen status every x ms
-    // This would normally be done with a background task/cron job (?)
-    setInterval(() => {
-        Controller.setLastSeen(chat.app.currentUser);
-        Controller.checkUsers();
-    }, 5000);
-
     let wrapper = cr('div', app, 'class wrapper');
 
     let container = cr('div', wrapper, 'class container frontpage');
@@ -60,18 +53,20 @@ function showFrontPage() {
         Controller.keyDown(e, textarea);
     });
     textarea.addEventListener('keyup', Controller.keyUp);
-    let send = cr('div', compose, 'class btn', 'Send');
+    let send = cr('div', compose, 'class btn, title Send melding', 'Send');
     send.onclick = () => {
         Controller.sendMessage(textarea);
+    }
+
+    let logout = cr('div', chatContainer, 'class logout');
+    let logoutBtn = cr('button', logout, 'title Logg ut', 'Logg ut');
+    logoutBtn.onclick = () => {
+        Controller.logout();
     }
 
 }
 
 function showLogin() {
-
-    setInterval(() => {
-        Controller.checkUsers();
-    }, 5000);
 
     let wrapper = cr('div', app, 'class wrapper');
 

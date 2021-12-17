@@ -7,6 +7,15 @@ import nb_NO from 'timeago.js/lib/lang/nb_NO';
 import moment from 'moment';
 let lastSeenInterval;
 
+// DEV ONLY - START
+// TODO: Delete this
+if (chat.app.currentUser) {
+    lastSeenInterval = setInterval(() => {
+        setLastSeen(chat.app.currentUser);
+    }, 5000);
+}
+// DEV ONLY - END
+
 // This would normally be done with a background task/cron job (?)
 setInterval(() => {
     checkUsers();
@@ -54,6 +63,15 @@ function login(input) {
         }, 5000);
         show('frontpage');
     }
+
+}
+
+function logout() {
+
+    setOnlineStatus(chat.app.currentUser, false);
+    chat.app.currentUser = '';
+    clearInterval(lastSeenInterval);
+    show('login');
 
 }
 
@@ -269,4 +287,4 @@ async function setOnlineStatus(user, bool) {
 
 }
 
-export { auth, updateUser, login, loginKeyDown, listChatParticipants, sendMessage, keyDown, keyUp, listMessages, setLastSeen, checkUsers }
+export { auth, updateUser, login, loginKeyDown, listChatParticipants, sendMessage, keyDown, keyUp, listMessages, setLastSeen, checkUsers, logout }
