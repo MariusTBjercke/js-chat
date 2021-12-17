@@ -110,33 +110,6 @@ function validateInput(input, errorMsg, listeners) {
 
 }
 
-/**
- * 
- * @param {*} action read (returns a promise) or write
- * @param {*} document Which document to operate with
- * @param {*} object For "write" action. Object data to update document with.
- * @returns 
- */
-async function firestore(action, document, object) {
-
-    const docRef = document ? doc(db, "users", document) : false;
-
-    switch (action) {
-        case 'read':
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) return docSnap.data();
-            else console.log('Read error..');
-            break;
-        case 'write':
-            if (!object) return false;
-            await setDoc(docRef, object);
-            break;
-        default:
-            break;
-    }
-
-}
-
 async function listChatParticipants(container) {
 
     const q = query(collection(db, "users"), where("online", "==", true));
@@ -179,7 +152,7 @@ async function sendMessage(input) {
     input.value = "";
 
     const docRef = await addDoc(collection(db, "messages"), message);
-
+    
 }
 
 function keyDown(e, input) {
