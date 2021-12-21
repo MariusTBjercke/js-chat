@@ -251,7 +251,7 @@ async function checkUsers() {
         let check = moment(lastSeen).isAfter(moment(oldTime));
 
         if (!check) {
-            setOnlineStatus(doc.id, false);
+            setOnlineStatus(name, false);
         }
 
     });
